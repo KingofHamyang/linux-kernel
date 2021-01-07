@@ -28,6 +28,7 @@
 #include <linux/sched.h>
 #include <linux/writeback.h>
 #include <linux/blkdev.h>
+#include <linux/kernel.h>
 
 #include "ext4.h"
 #include "ext4_jbd2.h"
@@ -139,6 +140,8 @@ int ext4_sync_file(struct file *file, loff_t start, loff_t end, int datasync)
 	J_ASSERT(ext4_journal_current_handle() == NULL);
 
 	trace_ext4_sync_file_enter(file, datasync);
+
+	printk("[DHDEBUG] fsyncing file name : %s", file->f_path.dentry->d_iname);
 
 	if (sb_rdonly(inode->i_sb)) {
 		/* Make sure that we read updated s_mount_flags value */

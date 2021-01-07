@@ -29,7 +29,7 @@
 #include <linux/backing-dev.h>
 #include <linux/mman.h>
 #include <linux/fadvise.h>
-
+#include <linux/kernel.h>
 static const struct vm_operations_struct xfs_file_vm_ops;
 
 /*
@@ -134,6 +134,8 @@ xfs_file_fsync(
 	xfs_lsn_t		lsn = 0;
 
 	trace_xfs_file_fsync(ip);
+	
+	printk("[DHDBUG] fsycing file name : %s\n", file->f_path.dentry->d_iname);
 
 	error = file_write_and_wait_range(file, start, end);
 	if (error)
